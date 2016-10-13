@@ -2,6 +2,7 @@
 
 import { connect } from 'react-redux';
 import Artist from '../components/Artist';
+import { fetchArtistById } from '../action-creators/artists'
 import { fetchAndGoToAlbum } from '../action-creators/albums';
 
 const mapStateToProps = ({ selectedArtist }) => ({
@@ -9,10 +10,11 @@ const mapStateToProps = ({ selectedArtist }) => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  go: album => dispatch(fetchAndGoToAlbum(album))
+  fetchArtistById: artistId => dispatch(fetchArtistById(artistId))
 });
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps
 )(Artist);
+

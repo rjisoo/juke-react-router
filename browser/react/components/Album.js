@@ -3,18 +3,10 @@
 import React from 'react';
 import SongsContainer from '../containers/SongsContainer';
 
-
-
-
 export default class Album extends React.Component {
 
 	componentDidMount() {
 		this.props.getTheAlbum(this.props.params.albumId)
-
-		// fetch('/api/albums/' + this.props.params.albumId)
-		// 	.then((res)=> res.json())
-		// 	.then(album => console.log(album));
-
 	}
 
 	render() {
