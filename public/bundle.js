@@ -85,24 +85,36 @@
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	_reactDom2.default.render(_react2.default.createElement(
-	  _reactRedux.Provider,
-	  { store: _store2.default },
-	  _react2.default.createElement(
-	    _reactRouter.Router,
-	    { history: _reactRouter.hashHistory },
-	    _react2.default.createElement(
-	      _reactRouter.Route,
-	      { path: '/', component: _AppContainer2.default },
-	      _react2.default.createElement(_reactRouter.IndexRedirect, { to: '/albums' }),
-	      _react2.default.createElement(_reactRouter.Route, { path: 'artists', component: _ArtistsContainer2.default }),
-	      _react2.default.createElement(
-	        _reactRouter.Route,
-	        { path: 'albums', component: _AlbumsContainer2.default },
-	        _react2.default.createElement(_reactRouter.Route, { path: 'albums/:albumId', component: _AlbumContainer2.default })
-	      )
-	    )
-	  )
+		_reactRedux.Provider,
+		{ store: _store2.default },
+		_react2.default.createElement(
+			_reactRouter.Router,
+			{ history: _reactRouter.hashHistory },
+			_react2.default.createElement(
+				_reactRouter.Route,
+				{ path: '/', component: _AppContainer2.default },
+				_react2.default.createElement(_reactRouter.IndexRedirect, { to: '/albums' }),
+				_react2.default.createElement(_reactRouter.Route, { path: 'artists', component: _ArtistsContainer2.default }),
+				_react2.default.createElement(_reactRouter.Route, { path: 'albums', component: _AlbumsContainer2.default }),
+				_react2.default.createElement(_reactRouter.Route, { path: 'albums/:albumId', component: _AlbumContainer2.default })
+			)
+		)
 	), document.getElementById('app'));
+	
+	// ReactDOM.render(
+	//   <Provider store={store}>
+	//     <Router history={hashHistory}>
+	//       <Route path='/' component={AppContainer}>
+	//         <IndexRedirect to="/albums" />
+	//         <Route path='artists' component={ArtistsContainer} />
+	//         <Route path='albums' component={AlbumsContainer}>
+	//           <Route path=":albumId" component={ArtistsContainer} />
+	//         </Route>
+	//       </Route>
+	//     </Router>
+	//   </Provider>,
+	//   document.getElementById('app')
+	// );
 
 /***/ },
 /* 1 */
@@ -24480,7 +24492,17 @@
 	      return _react2.default.createElement(
 	        'div',
 	        { id: 'main', className: 'container-fluid' },
-	        this.props.children
+	        _react2.default.createElement(
+	          'div',
+	          { className: 'col-xs-2' },
+	          _react2.default.createElement(_SidebarContainer2.default, null)
+	        ),
+	        _react2.default.createElement(
+	          'div',
+	          { className: 'col-xs-10' },
+	          this.props.children
+	        ),
+	        _react2.default.createElement(_PlayerContainer2.default, null)
 	      );
 	    }
 	  }]);
@@ -24647,63 +24669,63 @@
 	'use strict';
 	
 	Object.defineProperty(exports, "__esModule", {
-	  value: true
+		value: true
 	});
 	
 	var _react = __webpack_require__(1);
 	
 	var _react2 = _interopRequireDefault(_react);
 	
+	var _reactRouter = __webpack_require__(237);
+	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	exports.default = function (_ref) {
-	  var albums = _ref.albums;
-	  var go = _ref.go;
-	  return _react2.default.createElement(
-	    'div',
-	    null,
-	    _react2.default.createElement(
-	      'h3',
-	      null,
-	      'Albums'
-	    ),
-	    _react2.default.createElement(
-	      'div',
-	      { className: 'row' },
-	      albums.map(function (album) {
-	        return _react2.default.createElement(
-	          'div',
-	          { className: 'col-xs-4', key: album.id },
-	          _react2.default.createElement(
-	            'a',
-	            { className: 'thumbnail', href: '#', onClick: function onClick() {
-	                return go(album);
-	              } },
-	            _react2.default.createElement('img', { src: album.imageUrl }),
-	            _react2.default.createElement(
-	              'div',
-	              { className: 'caption' },
-	              _react2.default.createElement(
-	                'h5',
-	                null,
-	                _react2.default.createElement(
-	                  'span',
-	                  null,
-	                  album.name
-	                )
-	              ),
-	              _react2.default.createElement(
-	                'small',
-	                null,
-	                album.songs.length,
-	                ' songs'
-	              )
-	            )
-	          )
-	        );
-	      })
-	    )
-	  );
+		var albums = _ref.albums;
+		var go = _ref.go;
+		return _react2.default.createElement(
+			'div',
+			null,
+			_react2.default.createElement(
+				'h3',
+				null,
+				'Albums'
+			),
+			_react2.default.createElement(
+				'div',
+				{ className: 'row' },
+				albums && albums.map(function (album) {
+					return _react2.default.createElement(
+						'div',
+						{ className: 'col-xs-4', key: album.id },
+						_react2.default.createElement(
+							_reactRouter.Link,
+							{ to: "/albums/" + album.id, className: 'thumbnail' },
+							_react2.default.createElement('img', { src: album.imageUrl }),
+							_react2.default.createElement(
+								'div',
+								{ className: 'caption' },
+								_react2.default.createElement(
+									'h5',
+									null,
+									_react2.default.createElement(
+										'span',
+										null,
+										album.name
+									)
+								),
+								_react2.default.createElement(
+									'small',
+									null,
+									album.songs.length,
+									' songs'
+								)
+							)
+						)
+					);
+				})
+			)
+		);
 	};
 
 /***/ },
@@ -24715,7 +24737,7 @@
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
-	exports.fetchAndGoToAlbum = exports.receiveAlbum = exports.receiveAlbums = undefined;
+	exports.fetchAlbumById = exports.fetchAndGoToAlbum = exports.receiveAlbum = exports.receiveAlbums = undefined;
 	
 	var _constants = __webpack_require__(190);
 	
@@ -24745,6 +24767,16 @@
 	    });
 	  };
 	};
+	
+	var fetchAlbumById = exports.fetchAlbumById = function fetchAlbumById(albumId) {
+	  return function (dispatch) {
+	    return fetch('/api/albums/' + albumId).then(function (res) {
+	      return res.json();
+	    }).then(function (album) {
+	      dispatch(receiveAlbum(album));
+	    });
+	  };
+	};
 
 /***/ },
 /* 224 */
@@ -24762,6 +24794,8 @@
 	
 	var _Album2 = _interopRequireDefault(_Album);
 	
+	var _albums = __webpack_require__(223);
+	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	var mapStateToProps = function mapStateToProps(_ref) {
@@ -24771,7 +24805,15 @@
 	  };
 	};
 	
-	exports.default = (0, _reactRedux.connect)(mapStateToProps)(_Album2.default);
+	var mapDispatchToProps = function mapDispatchToProps(dispatch) {
+	  return {
+	    getTheAlbum: function getTheAlbum(albumId) {
+	      return dispatch((0, _albums.fetchAlbumById)(albumId));
+	    }
+	  };
+	};
+	
+	exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(_Album2.default);
 
 /***/ },
 /* 225 */
@@ -24804,43 +24846,46 @@
 	var Album = function (_React$Component) {
 		_inherits(Album, _React$Component);
 	
-		function Album(props) {
+		function Album() {
 			_classCallCheck(this, Album);
 	
-			return _possibleConstructorReturn(this, (Album.__proto__ || Object.getPrototypeOf(Album)).call(this, props));
+			return _possibleConstructorReturn(this, (Album.__proto__ || Object.getPrototypeOf(Album)).apply(this, arguments));
 		}
 	
 		_createClass(Album, [{
-			key: 'selectAlbum',
-			value: function selectAlbum() {
-				console.log(this.props.params.albumId);
+			key: 'componentDidMount',
+			value: function componentDidMount() {
+				this.props.getTheAlbum(this.props.params.albumId);
+	
+				// fetch('/api/albums/' + this.props.params.albumId)
+				// 	.then((res)=> res.json())
+				// 	.then(album => console.log(album));
 			}
 		}, {
 			key: 'render',
 			value: function render() {
-				var album = this.props.params.albumId;
+				var selectedAlbum = this.props.selectedAlbum;
+	
 				return _react2.default.createElement(
-					'h3',
-					null,
-					album
+					'div',
+					{ className: 'album' },
+					_react2.default.createElement(
+						'div',
+						null,
+						_react2.default.createElement(
+							'h3',
+							null,
+							selectedAlbum.name
+						),
+						_react2.default.createElement('img', { src: selectedAlbum.imageUrl, className: 'img-thumbnail' })
+					),
+					_react2.default.createElement(_SongsContainer2.default, { songs: selectedAlbum.songs })
 				);
 			}
 		}]);
 	
 		return Album;
 	}(_react2.default.Component);
-	
-	// export default ({ albumId }) => (
-	
-	//   <div className="album">
-	//     <div>
-	//       <h3>{ selectedAlbum.name }</h3>
-	//       <img src={ selectedAlbum.imageUrl } className="img-thumbnail" />
-	//     </div>
-	//     <SongsContainer songs={selectedAlbum.songs} />
-	//   </div>
-	// );
-	
 	
 	exports.default = Album;
 
@@ -24936,7 +24981,7 @@
 	    _react2.default.createElement(
 	      'tbody',
 	      null,
-	      songs.map(function (song) {
+	      songs && songs.map(function (song) {
 	        return _react2.default.createElement(
 	          'tr',
 	          { key: song.id },
@@ -25178,7 +25223,7 @@
 	    _react2.default.createElement(
 	      'div',
 	      { className: 'list-group' },
-	      artists.map(function (artist) {
+	      artists && artists.map(function (artist) {
 	        return _react2.default.createElement(
 	          'div',
 	          { className: 'list-group-item', key: artist.id },
@@ -25321,7 +25366,7 @@
 	    _react2.default.createElement(
 	      'div',
 	      { className: 'row' },
-	      selectedArtist.albums.map(function (album) {
+	      selectedArtist && selectedArtist.albums.map(function (album) {
 	        return _react2.default.createElement(
 	          'div',
 	          { className: 'col-xs-4', key: album.id },

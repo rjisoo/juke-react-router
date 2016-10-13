@@ -9,7 +9,7 @@ export default ({ selectedArtist, go }) => (
     <h3>Albums</h3>
     <div className="row">
       {
-        selectedArtist.albums.map(album => (
+        selectedArtist && selectedArtist.albums.map(album => (
           <div className="col-xs-4" key={album.id}>
             <a className="thumbnail" href="#" onClick={() => go(album)}>
               <img src={ album.imageUrl } />

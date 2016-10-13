@@ -31,8 +31,15 @@ export default class App extends Component {
 
     return (
       <div id="main" className="container-fluid">
-        { this.props.children }
+        <div className="col-xs-2">
+          <SidebarContainer />
+        </div>
+        <div className="col-xs-10">
+          { this.props.children }
+        </div>
+        <PlayerContainer />
       </div>
+
     );
   }
 }
