@@ -12,6 +12,7 @@ const mapDispatchToProps = dispatch => ({
   go: artist => dispatch(fetchAndGoToArtist(artist))
 });
 
+// exporting connect, which renders Artists
 export default connect(
   mapStateToProps,
   mapDispatchToProps
