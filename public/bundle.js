@@ -70,9 +70,17 @@
 	
 	var _ArtistsContainer2 = _interopRequireDefault(_ArtistsContainer);
 	
+	var _AlbumContainer = __webpack_require__(224);
+	
+	var _AlbumContainer2 = _interopRequireDefault(_AlbumContainer);
+	
 	var _AlbumsContainer = __webpack_require__(221);
 	
 	var _AlbumsContainer2 = _interopRequireDefault(_AlbumsContainer);
+	
+	var _Album = __webpack_require__(225);
+	
+	var _Album2 = _interopRequireDefault(_Album);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -85,9 +93,13 @@
 	    _react2.default.createElement(
 	      _reactRouter.Route,
 	      { path: '/', component: _AppContainer2.default },
-	      _react2.default.createElement(_reactRouter.Route, { path: '/artists', component: _ArtistsContainer2.default }),
-	      _react2.default.createElement(_reactRouter.Route, { path: '/albums', component: _AlbumsContainer2.default }),
-	      _react2.default.createElement(_reactRouter.IndexRoute, { component: _AlbumsContainer2.default })
+	      _react2.default.createElement(_reactRouter.IndexRedirect, { to: '/albums' }),
+	      _react2.default.createElement(_reactRouter.Route, { path: 'artists', component: _ArtistsContainer2.default }),
+	      _react2.default.createElement(
+	        _reactRouter.Route,
+	        { path: 'albums', component: _AlbumsContainer2.default },
+	        _react2.default.createElement(_reactRouter.Route, { path: 'albums/:albumId', component: _AlbumContainer2.default })
+	      )
 	    )
 	  )
 	), document.getElementById('app'));
@@ -24768,8 +24780,10 @@
 	'use strict';
 	
 	Object.defineProperty(exports, "__esModule", {
-	  value: true
+		value: true
 	});
+	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 	
 	var _react = __webpack_require__(1);
 	
@@ -24781,24 +24795,54 @@
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
-	exports.default = function (_ref) {
-	  var selectedAlbum = _ref.selectedAlbum;
-	  return _react2.default.createElement(
-	    'div',
-	    { className: 'album' },
-	    _react2.default.createElement(
-	      'div',
-	      null,
-	      _react2.default.createElement(
-	        'h3',
-	        null,
-	        selectedAlbum.name
-	      ),
-	      _react2.default.createElement('img', { src: selectedAlbum.imageUrl, className: 'img-thumbnail' })
-	    ),
-	    _react2.default.createElement(_SongsContainer2.default, { songs: selectedAlbum.songs })
-	  );
-	};
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	
+	var Album = function (_React$Component) {
+		_inherits(Album, _React$Component);
+	
+		function Album(props) {
+			_classCallCheck(this, Album);
+	
+			return _possibleConstructorReturn(this, (Album.__proto__ || Object.getPrototypeOf(Album)).call(this, props));
+		}
+	
+		_createClass(Album, [{
+			key: 'selectAlbum',
+			value: function selectAlbum() {
+				console.log(this.props.params.albumId);
+			}
+		}, {
+			key: 'render',
+			value: function render() {
+				var album = this.props.params.albumId;
+				return _react2.default.createElement(
+					'h3',
+					null,
+					album
+				);
+			}
+		}]);
+	
+		return Album;
+	}(_react2.default.Component);
+	
+	// export default ({ albumId }) => (
+	
+	//   <div className="album">
+	//     <div>
+	//       <h3>{ selectedAlbum.name }</h3>
+	//       <img src={ selectedAlbum.imageUrl } className="img-thumbnail" />
+	//     </div>
+	//     <SongsContainer songs={selectedAlbum.songs} />
+	//   </div>
+	// );
+	
+	
+	exports.default = Album;
 
 /***/ },
 /* 226 */
